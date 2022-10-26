@@ -2,7 +2,6 @@
 const jwt = require('jsonwebtoken')
 const blogModel = require('../model/blogModel')
 const mongoose = require('mongoose')
-const ObjectId = mongoose.Schema.Types.ObjectId
 
 
 const authenticate = function (req, res, next) {
@@ -32,7 +31,7 @@ const authorise = async function (req, res, next) {
         if (blogId.length == 24) {
 
             let data = await blogModel.findById(blogId)    //search doc with that given blogId
-            if (data == null) return res.status(403).send({  status: false,msg: "No blog available with this BlogId" })
+            if (data == null) return res.status(403).send({ status: false, msg: "No blog available with this BlogId" })
             let loggedInAuthor = data.authorId.toString()  //person who want to access to resource
             let priviledgedAuthor = req.headers.authorId   //person who is loggedIn (has token)
 
@@ -50,6 +49,7 @@ const authorise = async function (req, res, next) {
 
 const authoriseforDelete = async function (req, res, next) {
     try {
+        
         let data = req.query
 
         // length of data object must be grater than Zero
